@@ -8,9 +8,17 @@ public class Player : NetworkBehaviour
 
     float moveSpeed = 1.875f;
 
+    public override void OnStartClient()
+    {
+        gameObject.GetComponent<Renderer>().material.color = color;
+    }
+
     void Update()
     {
-        GetInput();
+        if (isLocalPlayer && hasAuthority)
+        {
+            GetInput();
+        }
     }
 
     void GetInput()
