@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.Networking;
+using UnityEngine.UI;
 
 public class Player : NetworkBehaviour
 {
@@ -10,12 +11,14 @@ public class Player : NetworkBehaviour
     [SyncVar]
     public int score;
 
+    private Text scoreText;
 
     float moveSpeed = 1.875f;
 
     public override void OnStartClient()
     {
         gameObject.GetComponent<Renderer>().material.color = color;
+        scoreText = GameObject.Find("ScoreText").GetComponent<Text>();
     }
 
     void Update()
@@ -23,6 +26,7 @@ public class Player : NetworkBehaviour
         if (isLocalPlayer && hasAuthority)
         {
             GetInput();
+            scoreText.text = "Score: " + score;
         }
     }
 
