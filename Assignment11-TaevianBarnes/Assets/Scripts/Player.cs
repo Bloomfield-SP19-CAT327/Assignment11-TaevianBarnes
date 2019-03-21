@@ -5,6 +5,7 @@ public class Player : NetworkBehaviour
 {
     [SyncVar]
     public Color color;
+    public GameObject bulletPrefab;
 
     float moveSpeed = 1.875f;
 
@@ -34,6 +35,11 @@ public class Player : NetworkBehaviour
         {
             CmdMoveIt(x,y);
         }
+
+        if (Input.GetButtonUp("Fire1"))
+        {
+            CmdDoFire();
+        }
     }
 
     [ClientRpc]
@@ -48,6 +54,15 @@ public class Player : NetworkBehaviour
         RpcMoveIt(x, y);
     }
 
+    [Command]
+    public void CmdDoFire()
+    {
+        GameObject bullet = (GameObject)Instantiate(bulletPrefab, this.transform.position + this.transform.right, Quaternion.identity);
+        bullet.GetComponent<Rigidbody>().velocity = Vector3.forward * 17.5f;
+        bullet.GetComponent<Bullet>().color = color;
+        Destroy(bullet, 0.875f);
+        NetworkServer.Spawn(bullet);
+    }
 
 
 }
