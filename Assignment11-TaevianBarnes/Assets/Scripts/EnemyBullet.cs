@@ -11,16 +11,18 @@ public class EnemyBullet : NetworkBehaviour
     public GameObject bulletPrefab;
     private float spawnBulletTime = 0;
 
+    private float countdown = 3f;
+
     public override void OnStartClient()
     {
         gameObject.GetComponent<Renderer>().material.color = color;
     }
       
-    void Update()
+    void FixedUpdate()
     {
         if (isServer)
         {
-            if (Time.fixedTime > spawnBulletTime)
+            if (Time.deltaTime > spawnBulletTime)
             {
                 CmdFireBullet();
             }
@@ -34,8 +36,9 @@ public class EnemyBullet : NetworkBehaviour
         bullet.GetComponent<Rigidbody>().velocity = (Vector3.forward * -1) * 17.5f;
         bullet.GetComponent<Bullet>().color = color;
         bullet.GetComponent<Bullet>().parentNetId = this.netId;
-        spawnBulletTime = Time.fixedTime + Random.Range(3, 8);
+        spawnBulletTime = Time.deltaTime + Random.Range(3, 8);
         Destroy(bullet, -0.775f);
+        spawnBulletTime = 0;
     }
 
 }
