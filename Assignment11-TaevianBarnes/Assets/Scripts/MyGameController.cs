@@ -25,7 +25,7 @@ public class MyGameController : NetworkBehaviour
         Vector3 position = new Vector3(Random.Range(-6.75f, 6.75f), Random.Range(1.0f, 8.0f), 4.5f);
         GameObject enemy = (GameObject)Instantiate(enemyPrefab, position, Quaternion.identity);
         NetworkServer.Spawn(enemy);
-        spawnEnemyTime = Time.fixedTime + Random.Range(3, 8);
+        spawnEnemyTime = Time.fixedTime + Random.Range(3, 6);
     }
 
 }
